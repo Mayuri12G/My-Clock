@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags<!--a.getMinutes()> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Time Clock</title>
+    <script>
+function updateClock()
+{
+
+	// GET THE TIME
+	
+		// Get current time from user's machine
+		var currentTime = new Date ( );
+		
+		// Retrieve hours, minutes and seconds from new variable 'curretTime'
+		var localHours = currentTime.getHours ( );
+		var currentMinutes = currentTime.getMinutes ( );
+		var currentSeconds = currentTime.getSeconds ( );
+	
+	// FORMAT THE TIME
+		
+		// Add a leading zero to mins and secs if less than 10
+		
+		/* The ? and : symbols used above comprise the ternary operator.
+		This is a special operator that returns the value before the colon if the
+		condition before the query (?) is true, or the value after the colon if the
+		condition is false. It's a great way to write an if block in shorthand,
+		provided you only need to return a single value. */
+		
+		// Put more simply: If x = less than 10 use 0 + currentMinutes else currentMinutes
+		currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+		currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+						
+		// Variable for current hours
+		var currentHours = localHours + timeZone;
+		
+		// Prevents negative time values eg 1.00am London = 8.00pm New York, not -4.00am
+		currentHours = (currentHours < 0 ? ((currentHours - 12) + 36) : currentHours);
+
+		// Ensures cannot go to 13.xx.xx PM+ and returns to AM
+		currentHours = ((timeZone + localHours) > 24 ? currentHours = (currentHours - 24) : currentHours);
+		
+		// timeOfDay: If currentHours less than 12 = AM else PM
+		var timeOfDay = ( currentHours < 12 ) ? " AM" : " PM";
+		
+		// 12 hour clock: If currentHours greater than 12 then -12 else currentHours
+		currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+		
+		// 12 hour clock: If currentHours = 0 then 12 else currentHours
+		currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+		
+		// Put it all together in one variable
+		var currentTimeString = currentHours +":" + currentMinutes + ":" + currentSeconds + timeOfDay;
+		
+	// DISPLAYING THE CLOCK
+	
+		// Create the following span container: <span id="clock">&nbsp;</span>...
+		// see HTML below script
+		
+		/*  By placing the &nbsp; inside the span element, we're creating
+		a child text node for the span in the DOM. We can then populate the container
+		with our time string by retrieving this child text node then setting its
+		nodeValue property, as follows:
+		*/
+		
+		document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+        let a;
+        let date;
+        let time;
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        setInterval(() => {
+            a = new Date(); 
+            date = a.toLocaleDateString(undefined, options);
+            mins = ('0'+a.getMinutes()).slice(-2); 
+            secs=  ('0'+a.getSeconds()).slice(-2); 
+            var hrs=   ('0'+a.getHours()).slice(-2); 
+           hrs = (hrs % 12) || 12;
+            time = hrs + ':' + mins + ':' + secs;
+            document.getElementById('time').innerHTML = time + "<br>on " + date;
+        }, 1000);
+}
+    </script>
+</head>
+ 
+<body onLoad="setLocation(); updateClock(); setInterval('updateClock()', 1000 )">
+ <div style="background-image: url('/home/mayuriguldagad/JavaScript/img.jpeg');
+  background-size: cover; height:1000px; padding-top:80px;">
+  
+
+
+    <div class="container my-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Current time In India Is: <span id="time"></span></h1>
+            <p class="lead">World Time Clock</p>
+            <p class="lead">Customizable world clock with seconds & World time zones</p>
+            <hr class="my-4">
+            <p>We are here to show you the time for different countries</p>
+
+              <div class="dropdown">
+           <button class="btn btn-primary dropdown-toggle" role="button" type="button" data-toggle="dropdown">Selected City Time is
+                <span class="caret"></span></button>
+
+                  
+<span id="clock">&nbsp;</span><br />
+
+<p><b><h7>Your current time zone is <i> <span id="location">&nbsp;</span>.</i></h7></b></p>
+
+<button onclick="timeZone = -5; geoLoc = 'New York'; changeZone()">New York</button><br />
+<button onclick="timeZone = 0; geoLoc = 'London'; changeZone()">London</button><br />
+<button onclick="timeZone = 4; geoLoc = 'Dubai'; changeZone()">Dubai</button><br />
+<button onclick="timeZone = 8; geoLoc = 'Beijing'; changeZone()">Beijing</button><br />
+<button onclick="timeZone = 11; geoLoc = 'Sydney'; changeZone()">Sydney</button><br />
+ 
+
+
+                       </div> 
+ </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+        <script language="JavaScript">
+
+// function to calculate local time
+// in a different city
+// given the city's UTC offset
+
+// New York function
+var timeZone = 0;
+  
+function setLocation() {
+		document.getElementById("location").firstChild.nodeValue = geoLoc;
+}
+
+function changeZone() {
+	updateClock(); // Run updateClock function to get immediate change rather than waiting for <body> setInterval
+	document.getElementById("location").firstChild.nodeValue = geoLoc; // Change geoLoc variable using child node
+	alert ("Your time zone has been set to " + geoLoc + "."); // Alert the user to the change of time zone
+}
+
+
+
+</script>
+</div>
+</body>
+</html>
+
